@@ -1,6 +1,6 @@
 <template>
   <div class=''>
-    x
+    <router-view></router-view>
   </div>
 </template>
 <script>
