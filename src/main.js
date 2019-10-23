@@ -8,7 +8,7 @@ import store from '@/store'
 import axios from 'axios'
 import filters from '@/filter'
 
-
+//git  find . "(" -name "*.css" -or -name "*.vue" -or -name "*.js" -or -name "*.styl" ")" -print | xargs wc -l
 
 // 过滤器//
 for (const key in filters) {
@@ -26,14 +26,16 @@ axios.interceptors.request.use(config => {
   return config
 })
 
+// http://pzpj1ev9k.bkt.clouddn.com/1571760446169.jpg
+
 //响应拦截 config-后端返你的数据
-axios.interceptors.response.use(config => {
-  console.log(config, '=========响应拦截=========')
+axios.interceptors.response.use(res => {
+  console.log(res, '=========响应拦截=========' + res.config.url)
   // if (store.state.users.type != 0 && store.state.users.type != 1) {//未登录
   //   router.replace("/login")
   //   return;
   // }
-  return config;
+  return res;
 })
 
 // 全局守卫

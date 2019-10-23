@@ -14,7 +14,7 @@ var delTeacherBanner = baseUrl + "/delTeacherBanner"
 var delTeacherType = baseUrl + "/delTeacherType"
 var delTeacherTop = baseUrl + "/delTeacherTop"
 var addTeacherBanner = baseUrl + "/addTeacherBanner"
-// var findUser = baseUrl + '/findUser'
+var getToken = baseUrl + '/getToken'
 // var updateUser = baseUrl + "/updateUser"
 // var delUser=baseUrl+"/delUser"
 export default {
@@ -31,6 +31,7 @@ export default {
     delTeacherType,
     delTeacherTop,
     addTeacherBanner,
+    getToken,
     // findUser,
     // updateUser,
     // delUser

@@ -2,7 +2,7 @@
   <div class style="width:80%;text-align:left;">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="家教banner" name="first">
-        <v-addimg></v-addimg>
+        <v-addimg @getChild="xxx"></v-addimg>
 
         <el-table :data="thbanner" style="width: 100%" max-height="400">
           <el-table-column fixed type="index" prop="index+1" label="序号" width="150"></el-table-column>
@@ -111,10 +111,7 @@ export default {
     this.init();
   },
   methods: {
-    addimg1() {
-        console.log('addimg1');
-        
-    },
+  
     handleClick(tab, event) {
       console.log(this.activeName, "=========tab============", tab.name);
       //   this.activeName = tab;
@@ -229,6 +226,10 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    xxx() {
+      // 刷新页面 子触发
+      this.init();
     },
     init() {
       // 刷新页面
