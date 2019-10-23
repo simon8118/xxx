@@ -9,7 +9,10 @@ const manage = () => import("../pages/manage.vue")
 const welcome = () => import("../pages/welcome.vue")
 const modifyPwd = () => import("../pages/modifyPwd.vue")
 const teaching = () => import("../pages/teaching.vue")
-const addimg = () => import("../components/common/addimg.vue")
+const banner = () => import("../pages/banner.vue")
+const water = () => import("../pages/water.vue")
+const repair = () => import("../pages/repair.vue")
+const homeMaking = () => import("../pages/homeworker.vue")
 
 export default new Router({
 
@@ -22,12 +25,6 @@ export default new Router({
           path: 'manage',
           name: '管理员管理',
           component: manage,
-          // children: [
-          //   {
-          //     path: 'add',
-          //     component: add
-          //   }
-          // ]
         },
         {
           path: 'welcome',
@@ -39,21 +36,30 @@ export default new Router({
           component: modifyPwd
         },
         {
+          path: 'banner',
+          name: 'banner管理',
+          component: banner
+        },
+        {
+          path: 'water',
+          name: '水站管理',
+          component: water
+        },
+        {
+          path: 'homeMaking',
+          name: '家政管理',
+          component: homeMaking
+        },
+        {
+          path: 'repair',
+          name: '维修管理',
+          component: repair
+        },
+        {
           path: 'teaching',
           name: '家教管理',
           component: teaching,
-          children: [
-            {
-              path: 'addimg',
-              name: '添加家教banner',
-              component: addimg
-            },
-          ]
         },
-        // {
-        //   path: 'add',
-        //   component: add
-        // },
         {
           path: '',
           redirect: "welcome"

@@ -7,7 +7,8 @@ import store from '@/store'
 // axios
 import axios from 'axios'
 import filters from '@/filter'
-
+import $ from 'jquery'
+Vue.prototype.$ = $
 //git  find . "(" -name "*.css" -or -name "*.vue" -or -name "*.js" -or -name "*.styl" ")" -print | xargs wc -l
 
 // 过滤器//
@@ -18,7 +19,7 @@ for (const key in filters) {
 // 请求拦截 config-你发送的参数
 axios.interceptors.request.use(config => {
   config.a = 10;
-  console.log("=========qingqiu拦截====================")
+  console.log("=========qingqiu拦截====================", config.url)
   // if(1){//未登录
   //   router.replace("/login")
   //   return;
@@ -30,7 +31,7 @@ axios.interceptors.request.use(config => {
 
 //响应拦截 config-后端返你的数据
 axios.interceptors.response.use(res => {
-  console.log(res, '=========响应拦截=========' + res.config.url)
+  console.log('=====' + res + '====响应拦截=========' + res.config.url)
   // if (store.state.users.type != 0 && store.state.users.type != 1) {//未登录
   //   router.replace("/login")
   //   return;
