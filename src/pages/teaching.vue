@@ -2,7 +2,7 @@
   <div class style="width:80%;text-align:left;">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="家教banner" name="first">
-        <v-addimg @getChild="xxx"></v-addimg>
+        <v-addimg @getChild="xxx" :arr='activeName'></v-addimg>
 
         <el-table :data="thbanner" style="width: 100%" max-height="400">
           <el-table-column fixed type="index" prop="index+1" label="序号" width="150"></el-table-column>
@@ -25,7 +25,9 @@
       </el-tab-pane>
 
       <el-tab-pane label="家教类型" name="second">
-        <el-button type="primary">添加</el-button>
+        <!-- <el-button type="primary">添加</el-button> -->
+        <v-addimg @getChild="xxx" :arr='activeName'></v-addimg>
+
         <el-table :data="thtype" style="width: 80%" max-height="400">
           <el-table-column fixed type="index" prop="index+1" label="序号" width="150"></el-table-column>
           <el-table-column label="图片" width="320">
@@ -47,7 +49,7 @@
       </el-tab-pane>
 
       <el-tab-pane label="家教排行" name="third">
-        <el-button type="primary">添加</el-button>
+        <v-addimg @getChild="xxx" :arr='activeName'></v-addimg>
 
         <el-table :data="thrank" style="width: 100%" max-height="400">
           <el-table-column fixed type="index" prop="index+1" label="序号" width="150"></el-table-column>

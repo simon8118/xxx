@@ -1,6 +1,7 @@
 <template>
   <div class="addimg">
     <el-button type="success" plain @click="csm">添加</el-button>
+    <!-- <el-button type="success" plain @click="addimg1">添加</el-button> -->
     <el-dialog
       title="添加家教banner"
       :visible.sync="dialogVisible"
@@ -52,10 +53,22 @@
         <span>图片</span>
         <el-input placeholder="请输入图片地址" v-model="teachhome.img" readonly></el-input>
       </div>
-      <div class="sp">
+      <div class="sp" v-if="arr=='first'">
         <span>描述</span>
         <el-input placeholder="请输入图片说明" v-model="teachhome.des"></el-input>
       </div>
+      <div class="sp" v-else-if="arr=='second'">
+        <span>类型</span>
+        <el-input placeholder="请输入图片类型" v-model="teachhome.type"></el-input>
+      </div>
+      <!-- v-else -->
+      <div class="sp" v-else-if="arr=='third'">
+        <span>报名人数</span>
+        <el-input placeholder="请输入报名人数" v-model="teachhome.num"></el-input>
+        <span>报名图片</span>
+        <el-input placeholder="请输入图片" v-model="teachhome.teacherImg" readonly></el-input>
+      </div>
+
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="add">添加</el-button>
@@ -77,7 +90,7 @@ export default {
       percentage: 0,
       percentShow: false,
       token:
-        "cZch8pgcf-Rt8_bKTV_cIc4iEBXTi5QzshniFCOp:fh4nv2WvH7V6zLa_YOZlnBVv9LI=:eyJzY29wZSI6IjA3MDgtd2ViIiwiZGVhZGxpbmUiOjE1NzE4MDQxNjN9",
+        "cZch8pgcf-Rt8_bKTV_cIc4iEBXTi5QzshniFCOp:0ncXzyM8fHbC6Js-NYRO3Q37QXQ=:eyJzY29wZSI6IjA3MDgtd2ViIiwiZGVhZGxpbmUiOjE1NzE4MTc1ODZ9",
       qiniuUrl: "http://pzpj1ev9k.bkt.clouddn.com/",
       //  http://pzpj1ev9k.bkt.clouddn.com
       urls: "",
@@ -210,7 +223,11 @@ export default {
     },
     // 用七牛上传
     uploadQiniu() {
-      for (const item of this.fileList) {
+      // for (const item of this.fileList) {
+      this.teachhome.teacherImg = this.teachhome.img = "";
+      for (var i = 0; i < this.fileList.length; i++) {
+        const item = this.fileList[i];
+
         const fileName = item.name;
         const postfix = fileName.substring(
           fileName.lastIndexOf("."),
@@ -251,8 +268,12 @@ export default {
               type: "success"
             });
             // 设置图片地址
-            vueThis.teachhome.img = vueThis.qiniuUrl + res.key;
-
+            // console.log(i + "======================");
+            if (vueThis.teachhome.img == "") {
+              vueThis.teachhome.img = vueThis.qiniuUrl + res.key;
+            } else if (vueThis.teachhome.teacherImg == "") {
+              vueThis.teachhome.teacherImg = vueThis.qiniuUrl + res.key;
+            }
             vueThis.percentShow = false;
             vueThis.imgUrl = vueThis.qiniuUrl + res.key;
             vueThis.fileUrl.push({ name: fileName, url: vueThis.imgUrl });
@@ -261,8 +282,9 @@ export default {
         );
       }
     },
-    // token: "cZch8pgcf-Rt8_bKTV_cIc4iEBXTi5QzshniFCOp:fh4nv2WvH7V6zLa_YOZlnBVv9LI=:eyJzY29wZSI6IjA3MDgtd2ViIiwiZGVhZGxpbmUiOjE1NzE4MDQxNjN9"
+    // token: "cZch8pgcf-Rt8_bKTV_cIc4iEBXTi5QzshniFCOp:0ncXzyM8fHbC6Js-NYRO3Q37QXQ=:eyJzY29wZSI6IjA3MDgtd2ViIiwiZGVhZGxpbmUiOjE1NzE4MTc1ODZ9"
     // url: "http://pzpj1ev9k.bkt.clouddn.com"
+
     addimg1() {
       console.log("addimg1");
       this.$axios({
@@ -276,21 +298,47 @@ export default {
     csm() {
       this.dialogVisible = true;
     },
-   
+
     add() {
       console.log(this.teachhome);
 
+      var parms = [];
+      var img = "";
+      var num = 0;
+      var des = "";
+      var type = "";
+      var teacherImg = "";
+      switch (this.arr) {
+        case "first":
+          img = this.teachhome.img;
+          des = this.teachhome.des;
+          parms[0] = API.addTeacherBanner;
+          parms[1] = { img, des };
+          break;
+        case "second":
+          img = this.teachhome.img;
+          type = this.teachhome.type;
+          parms[0] = API.addTeacherType;
+          parms[1] = { img, type };
+          break;
+        case "third":
+          img = this.teachhome.img;
+          num = this.teachhome.num;
+          teacherImg = this.teachhome.teacherImg;
+          parms[0] = API.addTeacherTop;
+          parms[1] = { img, teacherImg, num };
+          break;
+        default:
+          break;
+      }
       this.$axios({
-        url: API.addTeacherBanner,
-
-        params: {
-          img: this.teachhome.img,
-          des: this.teachhome.des
-        }
+        url: parms[0],
+        params: parms[1]
+        // params:{img, des}
       }).then(res => {
         if (res.data.isok) {
           this.$message("添加成功");
-          this.$emit('getChild');
+          this.$emit("getChild");
         } else {
           this.$message(res.data.info);
         }
