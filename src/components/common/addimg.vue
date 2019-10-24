@@ -34,7 +34,7 @@
         <div class="upload">
           <span>上传文件：</span>
 
-          <el-button
+          <el-button class="elbutton"
             element-loading-text="拼命上传中"
             @click="uploadQiniu"
             type="primary"
@@ -47,8 +47,9 @@
 
       <div class="sp tp" @click="tps">
         <span>图片:</span>
-        <div style="width:60px;height:60px;border:1px solid red; display:inline-block;">
-          <img :src="teachhome.img" alt style="width:100%;height:100%;" />
+        <div style="clearfix;width:120px;height:120px;line-height:120px;border-radius:10px;border:1px dashed red; display:inline-block;font-size:20px;text-align:center;position:relative;overflow:hidden;">
+          <span>+</span>
+          <img :src="teachhome.img" alt style="float:left;width:100%;height:100%; position:absolute;left:0;top:0;" />
         </div>
       </div>
       <div class="sp" v-if="arr=='first'">
@@ -82,7 +83,7 @@
 import API from "@/common/js/API";
 import * as qiniu from "qiniu-js";
 import $ from "jquery";
-
+// border-style:dotted solid double dashed; 
 export default {
   props: ["arr", "url"],
 
@@ -196,12 +197,21 @@ export default {
       // 关闭弹窗
       this.dialogVisible = false;
     },
-    uploadHandle() {
+    uploadHandle(e) {
       const node = this.$refs.inputfile;
-      node.click();
+      node.click(ev=>{
+        console.log(ev,'===========ev==');
+        
+      });
+      console.log(e,'===========e==');
+      
+      // 进度条100%执行
+      // this.uploadQiniu();
     },
     fileChangeHandle() {
       const file = this.$refs.inputfile.files[0];
+      console.log(file);
+      
       // 判断文件类型
       const upType = ["png", "jpg", "docx"];
       const fileName = file.name;
@@ -235,6 +245,8 @@ export default {
     // 用七牛上传
     uploadQiniu() {
       // for (const item of this.fileList) {
+        console.log('===================uploadQiniu========');
+        
       this.teachhome.teacherImg = this.teachhome.img = "";
       for (var i = 0; i < this.fileList.length; i++) {
         const item = this.fileList[i];
@@ -261,6 +273,9 @@ export default {
           putExtra,
           config
         );
+
+        
+
         const vueThis = this;
         this.percentShow = true;
         this.percentage = 10;
@@ -268,6 +283,10 @@ export default {
           function(res) {
             // console.log('图片上传进度：', res)
             vueThis.percentage = res.total.percent;
+            if(vueThis.percentage == 100){
+              console.log('===============100===========');
+              // this.$emit("getUrl", this.qiniuForm.url + "/" + name);
+            }
           },
           function(error) {
             // console.error('图片上传失败：', error)
@@ -376,6 +395,7 @@ export default {
     tps() {
       console.log("点击===================");
       this.$(".sub").trigger("click");
+      // this.$(".elbutton").trigger("click");
     }
   },
   mounted() {
@@ -391,6 +411,7 @@ export default {
 
 .add {
   line-height: 40px;
+
 }
 
 .el-input {
