@@ -1,6 +1,6 @@
 # xxx
 
-> A Vue.js projectabc
+> A Vue.js project xxx
 
 ## Build Setup
 
